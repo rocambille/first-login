@@ -1,12 +1,9 @@
-const express = require('express');
-
 // init the express app
+const express = require('express');
 const app = express();
 
-// define the index route
-app.get('/', (req, res) => {
-  console.log('A new request just hit the API !');
-  res.send('Hello dear API client :)');
-});
+// add routes
+const routes = require('./routes');
+app.use(routes);
 
 module.exports = app;
