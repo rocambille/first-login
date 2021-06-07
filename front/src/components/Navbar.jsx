@@ -14,6 +14,7 @@ function Navbar() {
       {loginData == null ? (
         <>
           {link('/login', 'Login')}
+          {link('/register', 'Register')}
         </>
       ) : (
         <>

@@ -12,7 +12,7 @@ db.connect((err) => {
   if (err) {
     console.error('error connecting: ' + err.stack);
   } else {
-    console.log('connected to database with threadId :  ' + connection.threadId);
+    console.log('connected to database with threadId :  ' + db.threadId);
   }
 });
 
