@@ -1,3 +1,5 @@
+const db = require("../db");
+
 const userRoutes = require('express').Router();
 
 userRoutes.get('/', (req, res) => {
