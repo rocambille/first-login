@@ -1,10 +1,11 @@
 const { hashPassword } = require('../middlewares/auth');
+const UserModel = require('../models/UserModel');
 const db = require("../db");
 
 const userRoutes = require('express').Router();
 
 userRoutes.get('/', (req, res) => {
-  db.query('SELECT * from user', (err, results) => {
+  const callback = (err, results) => {
     if (err) {
       console.log(err);
       res.status(500);
@@ -12,7 +13,10 @@ userRoutes.get('/', (req, res) => {
     else {
       res.status(200).json(results);
     }
-  })
+  };
+
+  const userModel = new UserModel();
+  userModel.selectAll(callback);
 });
 
 userRoutes.post('/', hashPassword, (req, res) => {
@@ -27,8 +31,19 @@ userRoutes.post('/', hashPassword, (req, res) => {
       res.status(500);
     }
     else {
-      delete user.password;
-      res.status(201).json({...user, id: results.insertId});
+      const callback = (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500);
+        }
+        else {
+          delete results[0].password;
+          res.status(201).json(results[0]);
+        }
+      };
+
+      const userModel = new UserModel();
+      userModel.selectOneById(results.insertId, callback);
     }
   })
 });
